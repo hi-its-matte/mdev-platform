@@ -1,0 +1,16 @@
+{
+  "name": "MatteDev Dashboard",
+  "short_name": "Dashboard",
+  "start_url": "/dashboard.html", 
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#121212",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "https://media.mattedev.com/img/mlogo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    }
+  ]
+}

@@ -68,7 +68,6 @@ async function loadUserData(user) {
     if (previewPfp) previewPfp.src = userData.pfp || "";
     if (previewName) previewName.textContent = "@" + (userData.username || "User");
     if (previewBio) previewBio.textContent = userData.bio || "Nessuna bio impostata.";
-    if (profileUrl) profileUrl.textContent = `http://127.0.0.1:5500/users/index.html?u=${userData.username}`;
 
   } catch (err) {
     console.error("Errore critico durante loadUserData:", err);
@@ -161,6 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+
   // Chiusura dropdown intelligente
   window.addEventListener('click', (e) => {
     if (dropdown && !dropdown.contains(e.target)) {
@@ -205,4 +205,10 @@ window.handleAuth = async () => {
   }
 };
 
-console.log("MatteDev Auth System caricato con successo.");
+document.addEventListener('DOMContentLoaded', () => {
+    const authBtn = document.getElementById('authBtn');
+    if (authBtn) {
+        // Colleghiamo il click del pulsante alla funzione handleAuth
+        authBtn.addEventListener('click', window.handleAuth);
+    }
+});
