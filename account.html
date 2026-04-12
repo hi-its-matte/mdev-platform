@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Account — MatteDev</title>
+</head>
+<body>
+    <div class="card-container">
+        <div class="matte-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <h2>Dashboard MatteDev</h2>
+                <button class="btn-exit" onclick="window.location.href='dashboard.html'">Esci</button>
+            </div>
+
+            <div class="profile-preview-box">
+                <img id="currentPfp" src="" class="island-pfp" style="width:70px; height:70px; border-radius:15px; background: #222;">
+                <div>
+                    <h3 id="displayUsername">Caricamento...</h3>
+                    <p style="color: var(--muted); font-size: 12px; margin-top: 4px;">
+                        URL: <span id="profileUrlText" style="opacity: 0.8;">---</span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="editUsername" placeholder="Inserisci username">
+
+                <label>Link Immagine Profilo (pfp)</label>
+                <input type="text" id="editPfp" placeholder="https://esempio.com/foto.jpg">
+
+                <label>Bio Profilo</label>
+                <textarea id="editBio" rows="3" placeholder="Parlaci di te..."></textarea>
+
+                
+
+                <button class="btn-save" id="saveBtn" onclick="saveAccount()">Salva impostazioni account</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="auth.js"></script>
+</body>
+</html>

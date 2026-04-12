@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Dashboard — MatteDev</title>
+</head>
+<body>
+    <nav class="nav-container">
+        <img src="logo.png" height="30" alt="Logo">
+        
+        <div class="dynamic-island-wrapper">
+            <div class="dynamic-island" id="profileIsland">
+                <img src="placeholder.jpg" class="island-pfp" id="navPfp">
+                <span class="island-name" id="navName">Caricamento...</span>
+            </div>
+            
+            <div class="dropdown" id="profileDropdown">
+                <a href="account.html">⚙️ Gestione Account</a>
+                <hr style="opacity: 0.1; margin: 5px 0;">
+                <button id="logoutBtn" style="color: #ff5f5f;">Esci</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="card-container">
+        <h1>👋 Bentornato</h1>
+        <p style="color: var(--muted)">Seleziona uno strumento dalla tua dashboard.</p>
+        </main>
+
+    <script type="module" src="auth.js"></script>
+</body>
+</html>
