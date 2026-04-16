@@ -1,0 +1,329 @@
+/* =====================================================
+   MATTEDEV - TOTAL BLACK MONO STYLE
+   ===================================================== */
+:root {
+    --bg-black: #000000;
+    --icon-size: 100px; /* Icone più grandi */
+    --app-radius: 22.5%;
+    --text-white: #ffffff;
+    --transition-ios: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Montserrat fix */
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+body {
+    background-color: var(--bg-black);
+    color: var(--text-white);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- CENTRATURA E GRID --- */
+.card-container {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.apps-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 25px; /* Spazio equilibrato per icone grandi */
+    padding: 40px;
+}
+
+/* --- APP ITEM --- */
+.app-item {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 120px; /* Ingrandito per ospitare le icone */
+    cursor: pointer;
+    transition: var(--transition-ios);
+    animation: appAppear 0.7s ease-out backwards;
+}
+
+.app-icon-container {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    border-radius: var(--app-radius);
+    overflow: hidden;
+    background: #121212; /* Grigio scurissimo per contrasto icona */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-ios);
+}
+
+.app-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.app-name {
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+}
+
+/* --- FOLDER DISCOVER --- */
+.folder-icon {
+    background: #1a1a1a;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.open-symbol {
+    font-size: 42px; /* Simbolo grande */
+    color: white;
+    font-weight: bold;
+    line-height: 1;
+}
+
+/* --- HOVER & CLICK --- */
+.app-item:hover .app-icon-container {
+    transform: translateY(-8px) scale(1.05);
+    background: #1f1f1f;
+}
+
+.app-item:active .app-icon-container {
+    transform: scale(0.9);
+}
+
+/* --- OVERLAY CARTELLA (BLUR) --- */
+.folder-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(40px); /* Blur pesantissimo */
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.folder-overlay.active {
+    display: flex;
+}
+
+.folder-content {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: min(340px, 90%);
+    border-radius: 45px;
+    padding: 40px 20px;
+    animation: folderOpen 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.folder-header h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.folder-apps {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.close-folder-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- DYNAMIC ISLAND (USER PROFILE) --- */
+/* --- DYNAMIC ISLAND (USER PROFILE) --- */
+.user-profile-widget {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    background: #000000;
+    padding: 8px 16px;
+    border-radius: 18px; 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000; /* Assicurati che sia sopra tutto */
+    max-height: 45px; /* Limite altezza island */
+}
+
+.pfp-container {
+    width: 28px;  /* Dimensione fissa tassativa */
+    height: 28px; /* Dimensione fissa tassativa */
+    border-radius: 50%; /* La rende tonda */
+    overflow: hidden;   /* TAGLIA l'immagine se è più grande */
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #222;  /* Sfondo di sicurezza se l'immagine carica lenta */
+    flex-shrink: 0;    /* Impedisce alla pillola di schiacciare il cerchio */
+}
+
+.user-pfp-img {
+    width: 100%;       /* Si adatta alla larghezza del contenitore (28px) */
+    height: 100%;      /* Si adatta all'altezza del contenitore (28px) */
+    object-fit: cover; /* Mantiene le proporzioni ritagliando il centro */
+    display: block;
+}
+
+/* Animazione fluida all'entrata */
+@keyframes islandEntrance {
+    from { transform: scale(0.7) translateY(-20px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.user-profile-widget {
+    animation: islandEntrance 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.username-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    /* Rimosso text-transform: uppercase per mantenere maiuscole/minuscole originali */
+    letter-spacing: -0.2px;
+}
+
+/* --- ANIMAZIONI ICONE PIÙ FLUIDE --- */
+.app-item {
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); /* Effetto spring/rimbalzo */
+}
+
+.app-item:hover .app-icon-container {
+    transform: scale(1.12) translateY(-10px);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.8);
+}
+
+.app-item:active .app-icon-container {
+    transform: scale(0.85); /* Feedback di pressione più marcato */
+    transition-duration: 0.1s;
+}
+.folder-overlay {
+    transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.folder-content {
+    /* Animazione di apertura fluida dal centro */
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* --- DYNAMIC ISLAND AGGIORNATA --- */
+.user-profile-widget {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column; /* Importante per il menù sotto */
+    background: #000000;
+    padding: 8px 16px;
+    border-radius: 18px; 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1000;
+    overflow: hidden; /* Nasconde il menù quando non attiva */
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 46px; /* Altezza standard chiusa */
+    width: auto;
+    min-width: 150px;
+}
+
+/* Espansione al passaggio del mouse */
+.user-profile-widget:hover {
+    max-height: 120px; /* Si allunga per mostrare il logout */
+    background: #0a0a0a;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.island-main-content {
+    display: flex;
+    align-items: center;
+    height: 30px; /* Allinea il contenuto principale */
+}
+
+/* --- STILE MENÙ A TENDINA --- */
+.island-dropdown {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    display: flex;
+    justify-content: center;
+}
+
+.user-profile-widget:hover .island-dropdown {
+    opacity: 1;
+}
+
+.logout-link {
+    background: none;
+    border: none;
+    color: #ff453a; /* Rosso stile iOS */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    transition: background 0.2s ease;
+    width: 100%;
+    justify-content: center;
+}
+
+.logout-link:hover {
+    background: rgba(255, 69, 58, 0.1);
+}
+
+/* --- ANIMAZIONI --- */
+@keyframes appAppear {
+    from { opacity: 0; transform: scale(0.8) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes folderOpen {
+    from { opacity: 0; transform: scale(0.5); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Delay staggered */
+.app-item:nth-child(1) { animation-delay: 0.05s; }
+.app-item:nth-child(2) { animation-delay: 0.1s; }
+.app-item:nth-child(3) { animation-delay: 0.15s; }
+.app-item:nth-child(4) { animation-delay: 0.2s; }
+.app-item:nth-child(5) { animation-delay: 0.25s; }

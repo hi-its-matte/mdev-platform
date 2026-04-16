@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Mattedev Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="module" src="/js/FolderLogic.js"></script>
+    <script type="module" src="/js/web.js"></script>
+    <script type="module" src="/js/FirebaseDashboard.js"></script>
+    <script type="module" src="/js/BtnLogOut.js"></script>
+</head>
+<body>
+
+
+<div class="user-profile-widget" id="userProfile">
+    <div class="island-main-content">
+        <div class="pfp-container">
+            <img src="" alt="" id="userPfp" class="user-pfp-img">
+        </div>
+        <span id="usernameDisplay" class="username-text">Caricamento...</span>
+    </div>
+    
+    <div class="island-dropdown">
+        <button id="logoutBtn" class="logout-link">
+            <span>Logout</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        </button>
+    </div>
+</div>
+
+
+<main class="card-container">
+    <div class="apps-wrapper">
+
+        
+        
+        <a href="account.html" class="app-item">
+            <div class="app-icon-container">
+                <img src="https://media.mattedev.com/img/mlogo.jpg" alt="Account" class="app-icon">
+            </div>
+            <span class="app-name">Account</span>
+        </a>
+
+        <a href="https://quill.mattedev.com" class="app-item webview-link">
+            <div class="app-icon-container">
+                <img src="https://media.mattedev.com/img/quill/logo.png" alt="Quill" class="app-icon">
+            </div>
+            <span class="app-name">Quill</span>
+        </a> 
+
+
+        <a href="https://meteo.mattedev.com" class="app-item webview-link">
+            <div class="app-icon-container">
+                <img src="https://media.mattedev.com/img/mattemeteo/icon.ico" alt="Meteo" class="app-icon">
+            </div>
+            <span class="app-name">Meteo</span>
+        </a>
+        
+        <a href="https://status.mattedev.com" class="app-item webview-link">
+            <div class="app-icon-container">
+                <img src="https://media.mattedev.com/img/status/status.png" alt="Status" class="app-icon">
+            </div>
+            <span class="app-name">Status</span>
+        </a>
+    </div>
+
+        <div class="app-item" id="openFolder">
+            <div class="app-icon-container folder-icon">
+                <span class="open-symbol">+</span>
+            </div>
+            <span class="app-name">Discover</span>
+        </div>
+
+    <div class="folder-overlay" id="folderOverlay">
+        <div class="folder-content">
+            <div class="folder-header">
+                <h2>Discover</h2>
+            </div>
+            <div class="folder-apps">
+                <a href="https://event.mattedev.com" class="app-item">
+                    <div class="app-icon-container">
+                        <img src="https://media.mattedev.com/img/event/logo.png" alt="Event" class="app-icon">
+                    </div>
+                    <span class="app-name">MatteDev Event 2026</span>
+                </a>
+            </div>
+        </div>
+        <button class="close-folder-btn">✕</button>
+    </div>
+</main>
+
+</body>
+</html>

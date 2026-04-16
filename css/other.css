@@ -1,0 +1,169 @@
+/* =====================================================
+   MATTEDEV - AUTH & ACCOUNT STYLES (TOTAL BLACK)
+   ===================================================== */
+
+:root {
+    --bg-black: #000000;
+    --card-bg: #0a0a0a;
+    --input-bg: #121212;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --accent-blue: #007aff;
+    --text-muted: #666666;
+    --radius-main: 20px;
+}
+
+/* --- RESET & BASE --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif !important;
+}
+
+body {
+    background-color: var(--bg-black);
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- CONTAINER CENTRALE --- */
+.card-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- CARDS (Login & Account) --- */
+.login-card, .matte-card {
+    width: 100%;
+    max-width: 420px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-main);
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- TIPOGRAFIA --- */
+h1, h2, h3 {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* --- INPUTS & FORM ELEMENTS --- */
+input[type="email"], 
+input[type="password"], 
+input[type="text"], 
+textarea {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 14px 16px;
+    color: #fff;
+    font-size: 15px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: #181818;
+}
+
+textarea {
+    resize: none;
+}
+
+/* --- BOTTONI --- */
+.btn-save, #authBtn {
+    width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+    border: none;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    background: #ffffff;
+    color: #000000;
+    margin-top: 10px;
+}
+
+.btn-save:hover, #authBtn:hover {
+    transform: translateY(-2px);
+    background: #e5e5e5;
+}
+
+.btn-save:active, #authBtn:active {
+    transform: scale(0.98);
+}
+
+.btn-exit {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-color);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-exit:hover {
+    background: rgba(255, 69, 58, 0.1);
+    color: #ff453a;
+    border-color: rgba(255, 69, 58, 0.2);
+}
+
+/* --- PROFILE PREVIEW BOX (ACCOUNT PAGE) --- */
+.profile-preview-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 18px;
+    margin-bottom: 30px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.island-pfp {
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+}
+
+#displayUsername {
+    font-size: 18px;
+    color: #fff;
+}
+
+/* --- LINK DINAMICO --- */
+#toggleAuth {
+    transition: 0.3s;
+    font-weight: 500;
+}
+
+#toggleAuth:hover {
+    color: #ffffff !important;
+}
