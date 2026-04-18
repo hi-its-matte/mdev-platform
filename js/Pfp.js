@@ -76,7 +76,7 @@ confirmUpload.onclick = async () => {
 
     try {
         // Chiamata al tuo backend via Cloudflare Tunnel
-        const response = await fetch('https://pfp.api.mattedev.com/upload-pfp', {
+        const response = await fetch('https://pfp-api.mattedev.com/upload-pfp', {
             method: 'POST',
             body: formData
         });
