@@ -1,7 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"; // Importa Firestore
 
-// Configurazione Firebase per l'autenticazione lato client
+// 1. Configurazione Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyC7Tbqt5FzJK8Z_USkCMWxXiHZp8uRN26A",
     authDomain: "mattedev-account.firebaseapp.com",
@@ -13,6 +14,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app); // Inizializza Firestore
 
 // Riferimenti DOM
 const dropZone = document.getElementById('dropZone');
@@ -21,7 +23,6 @@ const warningModal = document.getElementById('warningModal');
 const confirmUpload = document.getElementById('confirmUpload');
 const mainText = dropZone.querySelector('.main-text');
 const currentPfp = document.getElementById('currentPfp');
-const editPfp = document.getElementById('editPfp');
 
 let pendingFile = null;
 let currentUserUID = null;
@@ -30,8 +31,6 @@ let currentUserUID = null;
 onAuthStateChanged(auth, (user) => {
     if (user) {
         currentUserUID = user.uid;
-    } else {
-        console.warn("Nessun utente autenticato rilevato.");
     }
 });
 
@@ -48,54 +47,36 @@ function prepareUpload(file) {
 dropZone.onclick = () => fileInput.click();
 fileInput.onchange = (e) => prepareUpload(e.target.files[0]);
 
-// Drag & Drop
-['dragenter', 'dragover', 'dragleave', 'drop'].forEach(name => {
-    window.addEventListener(name, e => e.preventDefault());
-});
-
-dropZone.addEventListener('dragover', () => dropZone.classList.add('drag-over'));
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-dropZone.addEventListener('drop', (e) => {
-    dropZone.classList.remove('drag-over');
-    prepareUpload(e.dataTransfer.files[0]);
-});
-
-// LOGICA UPLOAD AL TUO BACKEND
+// Logica Upload
 confirmUpload.onclick = async () => {
     warningModal.style.display = "none";
-    if (!pendingFile || !currentUserUID) {
-        alert("Dati mancanti per l'upload.");
-        return;
-    }
+    if (!pendingFile || !currentUserUID) return;
 
     mainText.innerText = "Elaborazione immagine...";
 
     const formData = new FormData();
-    formData.append('image', pendingFile); // 'image' deve corrispondere a upload.single('image') nel backend
+    formData.append('image', pendingFile);
     formData.append('uid', currentUserUID);
 
     try {
-        // Chiamata al tuo backend via Cloudflare Tunnel
+        // 1. Upload sul tuo server Ubuntu
         const response = await fetch('https://pfp-api.mattedev.com/upload-pfp', {
             method: 'POST',
             body: formData
         });
 
         if (!response.ok) throw new Error(`Errore Server: ${response.status}`);
-
         const data = await response.json();
 
-        // Se il backend ha salvato tutto e risposto con l'URL
         if (data.url) {
-    currentPfp.src = data.url;
-    
-    // AGGIUNGI QUESTA RIGA:
-    if (window.updateFirestorePfp) {
-        await window.updateFirestorePfp(data.url);
-    }
+            // 2. Aggiorna Firestore con l'URL corretto (quello col trattino -)
+            const userRef = doc(db, "users", currentUserUID);
+            await updateDoc(userRef, {
+                pfp: data.url // Salva il link nel campo 'pfp' del documento UID
+            });
 
-    mainText.innerText = "Profilo aggiornato con successo!";
-
+            // 3. Aggiorna UI
+            currentPfp.src = data.url;
             mainText.innerText = "Profilo aggiornato con successo!";
             
             setTimeout(() => { 
@@ -104,9 +85,9 @@ confirmUpload.onclick = async () => {
         }
 
     } catch (err) {
-        console.error("Errore durante l'upload:", err);
+        console.error("Errore:", err);
         mainText.innerText = "Errore durante il caricamento";
-        alert("Impossibile contattare il backend. Verifica che PM2 sia attivo.");
+        alert("Errore nell'aggiornamento del profilo.");
     }
 };
 
