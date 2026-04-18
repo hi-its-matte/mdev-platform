@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+// Configurazione Firebase per l'autenticazione lato client
 const firebaseConfig = {
     apiKey: "AIzaSyC7Tbqt5FzJK8Z_USkCMWxXiHZp8uRN26A",
     authDomain: "mattedev-account.firebaseapp.com",
@@ -12,9 +12,9 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
 const auth = getAuth(app);
 
+// Riferimenti DOM
 const dropZone = document.getElementById('dropZone');
 const fileInput = document.getElementById('fileInput');
 const warningModal = document.getElementById('warningModal');
@@ -26,22 +26,31 @@ const editPfp = document.getElementById('editPfp');
 let pendingFile = null;
 let currentUserUID = null;
 
+// Recupera l'utente corrente
 onAuthStateChanged(auth, (user) => {
-    if (user) currentUserUID = user.uid;
+    if (user) {
+        currentUserUID = user.uid;
+    } else {
+        console.warn("Nessun utente autenticato rilevato.");
+    }
 });
 
+// Gestione selezione file
 function prepareUpload(file) {
     if (file && file.type.startsWith('image/')) {
         pendingFile = file;
         warningModal.style.display = "block";
+    } else {
+        alert("Per favore seleziona un'immagine valida.");
     }
 }
 
 dropZone.onclick = () => fileInput.click();
 fileInput.onchange = (e) => prepareUpload(e.target.files[0]);
 
-['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-    window.addEventListener(eventName, e => e.preventDefault());
+// Drag & Drop
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(name => {
+    window.addEventListener(name, e => e.preventDefault());
 });
 
 dropZone.addEventListener('dragover', () => dropZone.classList.add('drag-over'));
@@ -51,48 +60,48 @@ dropZone.addEventListener('drop', (e) => {
     prepareUpload(e.dataTransfer.files[0]);
 });
 
+// LOGICA UPLOAD AL TUO BACKEND
 confirmUpload.onclick = async () => {
     warningModal.style.display = "none";
-    if (!pendingFile || !currentUserUID) return;
+    if (!pendingFile || !currentUserUID) {
+        alert("Dati mancanti per l'upload.");
+        return;
+    }
 
-    mainText.innerText = "Caricamento...";
+    mainText.innerText = "Elaborazione immagine...";
 
     const formData = new FormData();
-    formData.append('reqtype', 'fileupload');
-    formData.append('fileToUpload', pendingFile);
+    formData.append('image', pendingFile); // 'image' deve corrispondere a upload.single('image') nel backend
+    formData.append('uid', currentUserUID);
 
     try {
-        // RIMOSSO IL PROXY: Chiamata diretta a Catbox
-        const response = await fetch('https://catbox.moe/user/api.php', {
+        // Chiamata al tuo backend via Cloudflare Tunnel
+        const response = await fetch('https://pfp.api.mattedev.com/upload-pfp', {
             method: 'POST',
             body: formData
         });
 
-        if (!response.ok) throw new Error("Errore Server Catbox");
-        
-        const imageUrl = (await response.text()).trim();
+        if (!response.ok) throw new Error(`Errore Server: ${response.status}`);
 
-        // Controllo che la risposta sia un link valido
-        if (!imageUrl.startsWith('http')) {
-             throw new Error("Risposta non valida: " + imageUrl);
+        const data = await response.json();
+
+        // Se il backend ha salvato tutto e risposto con l'URL
+        if (data.url) {
+            // Aggiorna l'anteprima e il campo nascosto
+            currentPfp.src = data.url;
+            if (editPfp) editPfp.value = data.url;
+
+            mainText.innerText = "Profilo aggiornato con successo!";
+            
+            setTimeout(() => { 
+                mainText.innerText = "Trascina qui la tua immagine"; 
+            }, 3000);
         }
 
-        await update(ref(db, `users/${currentUserUID}`), {
-            pfp: imageUrl
-        });
-
-        editPfp.value = imageUrl;
-        currentPfp.src = imageUrl;
-        mainText.innerText = "Profilo aggiornato!";
-        
-        setTimeout(() => { 
-            mainText.innerText = "Trascina qui la tua immagine"; 
-        }, 3000);
-
     } catch (err) {
-        console.error("Dettagli errore:", err);
-        alert("Errore nel caricamento. Catbox potrebbe bloccare la richiesta dal browser.");
-        mainText.innerText = "Riprova";
+        console.error("Errore durante l'upload:", err);
+        mainText.innerText = "Errore durante il caricamento";
+        alert("Impossibile contattare il backend. Verifica che PM2 sia attivo.");
     }
 };
 
