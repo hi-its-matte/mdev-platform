@@ -87,9 +87,14 @@ confirmUpload.onclick = async () => {
 
         // Se il backend ha salvato tutto e risposto con l'URL
         if (data.url) {
-            // Aggiorna l'anteprima e il campo nascosto
-            currentPfp.src = data.url;
-            if (editPfp) editPfp.value = data.url;
+    currentPfp.src = data.url;
+    
+    // AGGIUNGI QUESTA RIGA:
+    if (window.updateFirestorePfp) {
+        await window.updateFirestorePfp(data.url);
+    }
+
+    mainText.innerText = "Profilo aggiornato con successo!";
 
             mainText.innerText = "Profilo aggiornato con successo!";
             

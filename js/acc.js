@@ -90,3 +90,12 @@ saveBtn.addEventListener('click', async () => {
         saveBtn.textContent = "Salva impostazioni account";
     }
 });
+// Funzione globale per aggiornare Firestore quando l'upload della foto finisce
+window.updateFirestorePfp = async (newUrl) => {
+    const user = auth.currentUser;
+    if (user) {
+        const userRef = doc(db, "users", user.uid);
+        await updateDoc(userRef, { pfp: newUrl });
+        console.log("Firestore aggiornato con il nuovo URL della foto!");
+    }
+};
