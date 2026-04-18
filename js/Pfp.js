@@ -26,12 +26,10 @@ const editPfp = document.getElementById('editPfp');
 let pendingFile = null;
 let currentUserUID = null;
 
-// Gestione autenticazione
 onAuthStateChanged(auth, (user) => {
     if (user) currentUserUID = user.uid;
 });
 
-// Funzione centralizzata per gestire il file selezionato
 function prepareUpload(file) {
     if (file && file.type.startsWith('image/')) {
         pendingFile = file;
@@ -39,26 +37,20 @@ function prepareUpload(file) {
     }
 }
 
-// Click sulla zona
 dropZone.onclick = () => fileInput.click();
-
 fileInput.onchange = (e) => prepareUpload(e.target.files[0]);
 
-// LOGICA DRAG & DROP CORRETTA
 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
     window.addEventListener(eventName, e => e.preventDefault());
 });
 
 dropZone.addEventListener('dragover', () => dropZone.classList.add('drag-over'));
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-
 dropZone.addEventListener('drop', (e) => {
     dropZone.classList.remove('drag-over');
-    const file = e.dataTransfer.files[0];
-    prepareUpload(file);
+    prepareUpload(e.dataTransfer.files[0]);
 });
 
-// LOGICA CARICAMENTO CATBOX + FIREBASE
 confirmUpload.onclick = async () => {
     warningModal.style.display = "none";
     if (!pendingFile || !currentUserUID) return;
@@ -70,21 +62,25 @@ confirmUpload.onclick = async () => {
     formData.append('fileToUpload', pendingFile);
 
     try {
-        // Nota: corsproxy.io è necessario solo per test in localhost
-        const response = await fetch('https://corsproxy.io/?https://catbox.moe/user/api.php', {
+        // RIMOSSO IL PROXY: Chiamata diretta a Catbox
+        const response = await fetch('https://catbox.moe/user/api.php', {
             method: 'POST',
             body: formData
         });
 
-        if (!response.ok) throw new Error("Errore Catbox");
+        if (!response.ok) throw new Error("Errore Server Catbox");
+        
         const imageUrl = (await response.text()).trim();
 
-        // Salvataggio su Firebase
+        // Controllo che la risposta sia un link valido
+        if (!imageUrl.startsWith('http')) {
+             throw new Error("Risposta non valida: " + imageUrl);
+        }
+
         await update(ref(db, `users/${currentUserUID}`), {
             pfp: imageUrl
         });
 
-        // Update UI
         editPfp.value = imageUrl;
         currentPfp.src = imageUrl;
         mainText.innerText = "Profilo aggiornato!";
@@ -94,8 +90,8 @@ confirmUpload.onclick = async () => {
         }, 3000);
 
     } catch (err) {
-        console.error(err);
-        alert("Errore durante l'operazione.");
+        console.error("Dettagli errore:", err);
+        alert("Errore nel caricamento. Catbox potrebbe bloccare la richiesta dal browser.");
         mainText.innerText = "Riprova";
     }
 };
