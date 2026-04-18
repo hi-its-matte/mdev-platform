@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/other.css">
     <title>Account — MatteDev</title>
-    <link href="/css/other.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/other.css">
 </head>
 <body>
     <div class="card-container">
@@ -16,7 +15,7 @@
             </div>
 
             <div class="profile-preview-box">
-                <img id="currentPfp" src="" class="island-pfp" style="width:70px; height:70px; border-radius:15px; background: #222; object-fit: cover;">
+                <img id="currentPfp" src="" class="island-pfp" alt="Avatar" style="width:70px; height:70px; border-radius:15px; background: #222; object-fit: cover;">
                 <div>
                     <h3 id="displayUsername">Caricamento...</h3>
                     <p style="color: var(--muted); font-size: 12px; margin-top: 4px;">Immagine Profilo</p>
@@ -24,12 +23,12 @@
             </div>
 
             <div class="form-group">
-                <div>
-                    <label>Username</label>
+                <div class="input-wrapper">
+                    <label for="editUsername">Username</label>
                     <input type="text" id="editUsername" placeholder="Inserisci username">
                 </div>
 
-                <div>
+                <div class="input-wrapper">
                     <label>Immagine Profilo</label>
                     <div class="drop-zone" id="dropZone">
                         <div class="upload-icon"></div>
@@ -40,8 +39,8 @@
                     </div>
                 </div>
 
-                <div>
-                    <label>Bio Profilo</label>
+                <div class="input-wrapper">
+                    <label for="editBio">Bio Profilo</label>
                     <textarea id="editBio" rows="3" placeholder="Parlaci di te..."></textarea>
                 </div>
 
@@ -50,7 +49,7 @@
         </div>
     </div>
 
-    <div id="warningModal" class="modal">
+    <div id="warningModal" class="modal" style="display: none;">
         <div class="modal-content">
             <h3 style="color: #ff4d4d;">⚠️ Avviso Importante</h3>
             <p>L'immagine verrà caricata su <b>Catbox.moe</b>.<br><br>
@@ -65,7 +64,7 @@
     </div>
 
     <script type="module" src="/js/auth.js"></script>
-    <script type="module" src="/js/Pfp.js"></script>
     <script type="module" src="/js/account.js"></script>
+    <script type="module" src="/js/Pfp.js"></script>
 </body>
 </html>
