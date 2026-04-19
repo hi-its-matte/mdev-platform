@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // 1. Configurazione Iniziale
 const firebaseConfig = {
@@ -161,13 +161,17 @@ if (deleteAccountBtn) {
         deleteAccountBtn.textContent = "Eliminazione in corso...";
 
         try {
+            // Prima elimina i dati su Firestore (finché l'utente è autenticato)
+            const userRef = doc(db, "users", user.uid);
+            await deleteDoc(userRef);
+
             await deleteUser(user);
             alert("Account eliminato.");
             window.location.href = "/pages/login.html";
         } catch (error) {
             console.error("Errore eliminazione account:", error);
             if (String(error?.code || "").includes("requires-recent-login")) {
-                alert("Per eliminare l'account devi rieffettuare l'accesso (sicurezza). Effettua logout e rientra, poi riprova.");
+                alert("Per eliminare l'account devi rieffettuare l'accesso (sicurezza). I dati su Firestore potrebbero essere già stati rimossi: effettua logout e rientra, poi riprova.");
             } else {
                 alert("Errore durante l'eliminazione dell'account.");
             }
