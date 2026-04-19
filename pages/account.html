@@ -4,63 +4,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account — MatteDev</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/other.css">
 </head>
-<body>
-    <div class="card-container">
-        <div class="matte-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                <h2>Dashboard MatteDev</h2>
-                <button class="btn-exit" onclick="window.location.href='dashboard.html'">Esci</button>
+<body class="account-page">
+    <div class="account-shell">
+        <aside class="account-sidebar" aria-label="Navigazione account">
+            <div class="account-sidebar-title">MatteDev Account</div>
+            <div class="account-sidebar-divider" aria-hidden="true"></div>
+
+            <div class="account-sidebar-group">
+                <div class="account-sidebar-label">Account</div>
+                <nav class="account-nav" aria-label="Sezioni">
+                    <a class="account-nav-link is-active" href="#account">Account</a>
+                    <a class="account-nav-link" href="#sessione">Sessione</a>
+                </nav>
             </div>
 
-            <div class="profile-preview-box">
-                <img id="currentPfp" src="" class="island-pfp" alt="Avatar" style="width:70px; height:70px; border-radius:15px; background: #222; object-fit: cover;">
-                <div>
-                    <h3 id="displayUsername">Caricamento...</h3>
-                    <p style="color: var(--muted); font-size: 12px; margin-top: 4px;">Immagine Profilo</p>
-                </div>
-            </div>
+            <a class="account-back" href="dashboard.html">← Dashboard</a>
+        </aside>
 
-            <div class="form-group">
-                <div class="input-wrapper">
-                    <label for="editUsername">Username</label>
-                    <input type="text" id="editUsername" placeholder="Inserisci username">
+        <main class="account-main">
+            <header class="account-topbar">
+                <a class="account-back account-back-mobile" href="dashboard.html">← Dashboard</a>
+                <div class="account-heading">
+                    <h1 class="account-title">Account</h1>
+                    <p class="account-subtitle">Impostazioni del tuo profilo e della sessione.</p>
                 </div>
+            </header>
 
-                <div class="input-wrapper">
-                    <label>Immagine Profilo</label>
-                    <div class="drop-zone" id="dropZone">
-                        <div class="upload-icon"></div>
-                        <p class="main-text">Trascina qui la tua immagine</p>
-                        <p class="sub-text">oppure caricala manualmente</p>
-                        <input type="file" id="fileInput" accept="image/*" style="display:none;">
-                        <input type="hidden" id="editPfp">
+            <div class="account-content" role="region" aria-label="Contenuto account">
+                <div id="account" class="account-view is-active">
+                <section class="account-section is-highlight">
+                    <div class="account-section-head">
+                        <h2 class="account-section-title">Profilo</h2>
+                        <p class="account-section-sub">Modifica nome, bio e immagine.</p>
                     </div>
+
+                    <div class="account-panel">
+                        <div class="account-hero">
+                            <img id="currentPfp" src="" class="account-avatar" alt="Avatar">
+                            <div class="account-hero-text">
+                                <div class="account-username" id="displayUsername">Caricamento...</div>
+                                <div class="account-meta">Immagine profilo</div>
+                            </div>
+                        </div>
+
+                        <div class="account-fields">
+                            <div class="account-field">
+                                <label for="editUsername">Username</label>
+                                <input type="text" id="editUsername" placeholder="Inserisci username" autocomplete="nickname">
+                            </div>
+
+                            <div class="account-field">
+                                <label for="editBio">Bio profilo</label>
+                                <textarea id="editBio" rows="4" placeholder="Parlaci di te..."></textarea>
+                            </div>
+
+                            <div class="account-field">
+                                <label>Immagine profilo</label>
+                                <div class="drop-zone" id="dropZone" role="button" tabindex="0" aria-label="Carica immagine profilo">
+                                    <div class="upload-icon" aria-hidden="true"></div>
+                                    <p class="main-text">Trascina qui la tua immagine</p>
+                                    <p class="sub-text">oppure seleziona un file dal dispositivo</p>
+                                    <button type="button" class="upload-cta">Scegli file</button>
+                                    <input type="file" id="fileInput" accept="image/*" hidden>
+                                    <input type="hidden" id="editPfp">
+                                </div>
+                            </div>
+
+                            <div class="account-actions">
+                                <button class="btn-save" id="saveBtn" type="button">Salva impostazioni profilo</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
                 </div>
 
-                <div class="input-wrapper">
-                    <label for="editBio">Bio Profilo</label>
-                    <textarea id="editBio" rows="3" placeholder="Parlaci di te..."></textarea>
-                </div>
+                <div id="sessione" class="account-view">
+                <section class="account-section is-highlight">
+                    <div class="account-section-head">
+                        <h2 class="account-section-title">Sessione</h2>
+                        <p class="account-section-sub">Logout o elimina definitivamente l'account.</p>
+                    </div>
 
-                <button class="btn-save" id="saveBtn">Salva impostazioni account</button>
+                    <div class="account-panel">
+                        <div class="account-session-actions">
+                            <button class="btn-secondary" id="sessionLogoutBtn" type="button">Logout</button>
+                            <button class="btn-danger" id="deleteAccountBtn" type="button">Elimina account</button>
+                        </div>
+                        <p class="account-hint">L’eliminazione è irreversibile.</p>
+                    </div>
+                </section>
+                </div>
             </div>
-        </div>
+        </main>
     </div>
 
-    <div id="warningModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <h3 style="color: #ff4d4d;">⚠️ Avviso Importante</h3>
-            <p>L'immagine verrà caricata sui nostri server .<br><br>
-            Il file sarà <b>pubblico</b>. 
-            Non ci assumiamo responsabilità per il contenuto pubblicato.
-            I contenuti potranno essere rimossi solo su richiesta.
-        </p>
-            
+    <div id="warningModal" class="modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="warningTitle">
+            <h3 id="warningTitle" class="modal-title">⚠️ Avviso importante</h3>
+            <p class="modal-text">
+                L'immagine verrà caricata sui nostri server.
+                <br><br>
+                Il file sarà <b>pubblico</b>.
+                Non ci assumiamo responsabilità per il contenuto pubblicato.
+                I contenuti potranno essere rimossi solo su richiesta.
+            </p>
+
             <div class="modal-footer">
-                <button class="btn-modal btn-cancel" id="closeModal">Annulla</button>
-                <button class="btn-modal btn-confirm" id="confirmUpload">Accetto e Carico</button>
+                <button class="btn-modal btn-cancel" id="closeModal" type="button">Annulla</button>
+                <button class="btn-modal btn-confirm" id="confirmUpload" type="button">Accetto e carico</button>
             </div>
         </div>
     </div>

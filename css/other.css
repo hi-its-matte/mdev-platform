@@ -325,3 +325,503 @@ input[type="text"], textarea {
         .btn-modal { flex: 1; padding: 12px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; }
         .btn-confirm { background: #fff; color: #000; }
         .btn-cancel { background: #222; color: #fff; }
+
+/* =====================================================
+   ACCOUNT (SECTIONS LAYOUT)
+   ===================================================== */
+.account-page {
+    --account-line: rgba(255, 255, 255, 0.08);
+    --account-muted: rgba(255, 255, 255, 0.62);
+    --account-soft: rgba(255, 255, 255, 0.04);
+    --account-soft-2: rgba(255, 255, 255, 0.06);
+    background: #000;
+    color: #fff;
+    min-height: 100vh;
+}
+
+.account-shell {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+}
+
+.account-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    padding: 22px 18px;
+    border-right: 1px solid var(--account-line);
+    background:
+        radial-gradient(600px 320px at 20% 0%, rgba(255, 255, 255, 0.06), transparent 58%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent 50%);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.account-sidebar-title {
+    font-weight: 900;
+    letter-spacing: -0.2px;
+    font-size: 18px;
+    padding: 8px 10px 0;
+}
+
+.account-sidebar-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.06);
+    margin: 2px 8px 0;
+}
+
+.account-sidebar-group {
+    padding: 6px 8px 0;
+}
+
+.account-sidebar-label {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin: 10px 4px 10px;
+}
+
+.account-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.account-nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.account-nav-link:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
+}
+
+.account-nav-link.is-active {
+    background: #ffffff;
+    border-color: #ffffff;
+    color: #000000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.account-back {
+    display: inline-flex;
+    padding: 10px 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--account-line);
+    background: rgba(255, 255, 255, 0.02);
+    white-space: nowrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.account-back:hover {
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.account-sidebar .account-back {
+    margin-top: auto;
+    margin-left: 8px;
+    margin-right: 8px;
+    justify-content: center;
+}
+
+.account-main {
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 22px 18px 56px;
+}
+
+.account-topbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.account-back-mobile {
+    display: none;
+}
+
+.account-title {
+    font-size: 30px;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.account-subtitle {
+    margin-top: 8px;
+    color: var(--account-muted);
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.account-section {
+    padding: 18px 0;
+}
+
+.account-section.is-highlight {
+    position: relative;
+}
+
+.account-section.is-highlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 22px;
+    background: radial-gradient(600px 260px at 18% 0%, rgba(255, 255, 255, 0.08), transparent 55%);
+    opacity: 0.75;
+    pointer-events: none;
+}
+
+.account-hero {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.account-avatar {
+    width: 76px;
+    height: 76px;
+    border-radius: 18px;
+    background: #101010;
+    object-fit: cover;
+    border: 1px solid var(--account-line);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55);
+}
+
+.account-username {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+}
+
+.account-meta {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--account-muted);
+}
+
+.account-section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+.account-section-title {
+    font-size: 16px;
+    letter-spacing: -0.2px;
+    margin: 0;
+}
+
+.account-section-sub {
+    margin: 0;
+    font-size: 13px;
+    color: var(--account-muted);
+}
+
+.account-fields {
+    display: grid;
+    gap: 16px;
+    max-width: 720px;
+    position: relative;
+    z-index: 1;
+}
+
+.account-content {
+    border: 3px solid rgba(255, 255, 255, 0.92);
+    border-radius: 18px;
+    padding: 18px 18px 22px;
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.account-view {
+    display: none;
+}
+
+.account-view.is-active {
+    display: block;
+    animation: accountFadeIn 180ms ease-out;
+}
+
+@keyframes accountFadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.account-panel {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--account-line);
+    border-radius: 22px;
+    padding: 18px;
+}
+
+.account-panel .account-hero {
+    padding-bottom: 16px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.account-field label {
+    margin-bottom: 8px;
+}
+
+.account-page input[type="text"],
+.account-page textarea {
+    width: 100%;
+    background: var(--account-soft);
+    border: 1px solid var(--account-line);
+    border-radius: 14px;
+    padding: 14px 14px;
+    color: #fff;
+    font-size: 15px;
+    margin-bottom: 0;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.account-page input[type="text"]:focus,
+.account-page textarea:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.22);
+    background: var(--account-soft-2);
+}
+
+.account-page textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+.account-page .drop-zone {
+    border: 1px dashed rgba(255, 255, 255, 0.14);
+    border-radius: 16px;
+    padding: 22px 18px;
+    background: var(--account-soft);
+    text-align: left;
+    align-items: flex-start;
+}
+
+.account-page .drop-zone:hover {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: var(--account-soft-2);
+}
+
+.account-page .drop-zone.drag-over {
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.upload-cta {
+    margin-top: 10px;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 999px;
+    padding: 10px 14px;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.upload-cta:hover {
+    opacity: 0.9;
+}
+
+.account-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.account-actions .btn-save {
+    width: 100%;
+    max-width: 360px;
+}
+
+.account-session-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.btn-secondary {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    color: #fff;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.18);
+    transform: translateY(-1px);
+}
+
+.btn-danger {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    color: #fff;
+    font-weight: 900;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-danger:hover {
+    background: rgba(255, 69, 58, 0.14);
+    border-color: rgba(255, 69, 58, 0.35);
+    color: #ff453a;
+    transform: translateY(-1px);
+}
+
+.account-hint {
+    margin: 12px 0 0;
+    color: var(--account-muted);
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.account-page .modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    padding: 22px;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+}
+
+.account-page .modal-content {
+    width: 100%;
+    max-width: 460px;
+    margin: 0;
+    border-radius: 22px;
+    background: #0b0b0b;
+    border: 1px solid var(--account-line);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.65);
+    text-align: left;
+}
+
+.account-page .modal-title {
+    margin: 0 0 10px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.account-page .modal-text {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.account-page .modal-footer {
+    justify-content: flex-end;
+}
+
+.account-page .btn-cancel {
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+}
+
+.account-page .btn-confirm {
+    background: #fff;
+    color: #000;
+}
+
+@media (max-width: 960px) {
+    .account-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .account-sidebar {
+        display: none;
+    }
+
+    .account-main {
+        padding: 18px 16px 48px;
+    }
+
+    .account-topbar {
+        position: sticky;
+        top: 0;
+        padding: 10px 0 14px;
+        background: rgba(0, 0, 0, 0.72);
+        backdrop-filter: blur(10px);
+        z-index: 10;
+        margin-bottom: 6px;
+    }
+
+    .account-back-mobile {
+        display: inline-flex;
+    }
+
+    .account-title {
+        font-size: 24px;
+    }
+
+    .account-section-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .account-hero {
+        gap: 14px;
+    }
+
+    .account-avatar {
+        width: 68px;
+        height: 68px;
+        border-radius: 16px;
+    }
+
+    .account-actions .btn-save {
+        width: 100%;
+        max-width: none;
+    }
+
+    .account-session-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .account-content {
+        border-width: 2px;
+        padding: 14px 14px 18px;
+    }
+}

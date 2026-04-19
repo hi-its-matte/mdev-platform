@@ -21,8 +21,24 @@ const dropZone = document.getElementById('dropZone');
 const fileInput = document.getElementById('fileInput');
 const warningModal = document.getElementById('warningModal');
 const confirmUpload = document.getElementById('confirmUpload');
-const mainText = dropZone.querySelector('.main-text');
+const closeModalBtn = document.getElementById('closeModal');
 const currentPfp = document.getElementById('currentPfp');
+
+if (!dropZone || !fileInput || !warningModal || !confirmUpload || !closeModalBtn || !currentPfp) {
+    console.warn("Pfp.js: elementi DOM mancanti, script non inizializzato.");
+} else {
+    const mainText = dropZone.querySelector('.main-text');
+
+    const openModal = () => {
+        warningModal.style.display = "flex";
+        warningModal.setAttribute("aria-hidden", "false");
+    };
+
+    const closeModal = () => {
+        warningModal.style.display = "none";
+        warningModal.setAttribute("aria-hidden", "true");
+        pendingFile = null;
+    };
 
 let pendingFile = null;
 let currentUserUID = null;
@@ -38,7 +54,7 @@ onAuthStateChanged(auth, (user) => {
 function prepareUpload(file) {
     if (file && file.type.startsWith('image/')) {
         pendingFile = file;
-        warningModal.style.display = "block";
+        openModal();
     } else {
         alert("Per favore seleziona un'immagine valida.");
     }
@@ -47,12 +63,41 @@ function prepareUpload(file) {
 dropZone.onclick = () => fileInput.click();
 fileInput.onchange = (e) => prepareUpload(e.target.files[0]);
 
+dropZone.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        fileInput.click();
+    }
+});
+
+dropZone.addEventListener("dragenter", (e) => {
+    e.preventDefault();
+    dropZone.classList.add("drag-over");
+});
+
+dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZone.classList.add("drag-over");
+});
+
+dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("drag-over");
+});
+
+dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropZone.classList.remove("drag-over");
+    const file = e.dataTransfer?.files?.[0];
+    if (file) prepareUpload(file);
+});
+
 // Logica Upload
 confirmUpload.onclick = async () => {
     warningModal.style.display = "none";
+    warningModal.setAttribute("aria-hidden", "true");
     if (!pendingFile || !currentUserUID) return;
 
-    mainText.innerText = "Elaborazione immagine...";
+    if (mainText) mainText.innerText = "Elaborazione immagine...";
 
     const formData = new FormData();
     formData.append('image', pendingFile);
@@ -77,21 +122,31 @@ confirmUpload.onclick = async () => {
 
             // 3. Aggiorna UI
             currentPfp.src = data.url;
-            mainText.innerText = "Profilo aggiornato con successo!";
+            if (mainText) mainText.innerText = "Profilo aggiornato con successo!";
             
             setTimeout(() => { 
-                mainText.innerText = "Trascina qui la tua immagine"; 
+                if (mainText) mainText.innerText = "Trascina qui la tua immagine";
             }, 3000);
         }
 
     } catch (err) {
         console.error("Errore:", err);
-        mainText.innerText = "Errore durante il caricamento";
+        if (mainText) mainText.innerText = "Errore durante il caricamento";
         alert("Errore nell'aggiornamento del profilo.");
     }
 };
 
-document.getElementById('closeModal').onclick = () => {
-    warningModal.style.display = "none";
-    pendingFile = null;
-};
+closeModalBtn.onclick = closeModal;
+
+warningModal.addEventListener("click", (e) => {
+    if (e.target === warningModal) {
+        closeModal();
+    }
+});
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && warningModal.style.display === "flex") {
+        closeModal();
+    }
+});
+}

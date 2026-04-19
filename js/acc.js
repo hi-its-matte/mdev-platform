@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut, deleteUser } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 // 1. Configurazione Iniziale
@@ -22,6 +22,46 @@ const currentPfp = document.getElementById('currentPfp');
 const editUsername = document.getElementById('editUsername');
 const editBio = document.getElementById('editBio');
 const saveBtn = document.getElementById('saveBtn');
+const sessionLogoutBtn = document.getElementById('sessionLogoutBtn');
+const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+const accountNavLinks = Array.from(document.querySelectorAll(".account-nav-link"));
+const viewAccount = document.getElementById("account");
+const viewSessione = document.getElementById("sessione");
+
+const setActiveNav = (hash) => {
+    accountNavLinks.forEach((link) => {
+        const target = link.getAttribute("href") || "";
+        link.classList.toggle("is-active", target === `#${hash}`);
+    });
+};
+
+const setActiveView = (hash) => {
+    const view = hash === "sessione" ? "sessione" : "account";
+    if (viewAccount) viewAccount.classList.toggle("is-active", view === "account");
+    if (viewSessione) viewSessione.classList.toggle("is-active", view === "sessione");
+    setActiveNav(view);
+};
+
+if (accountNavLinks.length) {
+    accountNavLinks.forEach((link) => {
+        link.addEventListener("click", (e) => {
+            const href = link.getAttribute("href") || "";
+            if (!href.startsWith("#")) return;
+            e.preventDefault();
+            const hash = href.slice(1) || "account";
+            window.location.hash = `#${hash}`;
+            setActiveView(hash);
+        });
+    });
+
+    const initialHash = (window.location.hash || "#account").slice(1);
+    setActiveView(initialHash);
+
+    window.addEventListener("hashchange", () => {
+        const nextHash = (window.location.hash || "#account").slice(1);
+        setActiveView(nextHash);
+    });
+}
 
 // 2. Gestione Autenticazione (Risolve il problema del refresh)
 onAuthStateChanged(auth, async (user) => {
@@ -61,7 +101,7 @@ async function loadUserData(uid) {
 }
 
 // 4. Salvataggio dei dati modificati
-saveBtn.addEventListener('click', async () => {
+if (saveBtn) saveBtn.addEventListener('click', async () => {
     const user = auth.currentUser;
     if (!user) return alert("Devi essere loggato per salvare!");
 
@@ -90,6 +130,53 @@ saveBtn.addEventListener('click', async () => {
         saveBtn.textContent = "Salva impostazioni account";
     }
 });
+
+// 5. Sessione: logout + eliminazione account
+if (sessionLogoutBtn) {
+    sessionLogoutBtn.addEventListener("click", async () => {
+        if (!confirm("Vuoi uscire?")) return;
+        try {
+            await signOut(auth);
+            window.location.href = "/pages/login.html";
+        } catch (error) {
+            console.error("Errore logout:", error);
+            alert("Errore durante il logout.");
+        }
+    });
+}
+
+if (deleteAccountBtn) {
+    deleteAccountBtn.addEventListener("click", async () => {
+        const user = auth.currentUser;
+        if (!user) return alert("Devi essere loggato.");
+
+        const first = confirm("Vuoi eliminare definitivamente l'account?");
+        if (!first) return;
+
+        const second = confirm("Questa azione è IRREVERSIBILE. Confermi?");
+        if (!second) return;
+
+        deleteAccountBtn.disabled = true;
+        const previousText = deleteAccountBtn.textContent;
+        deleteAccountBtn.textContent = "Eliminazione in corso...";
+
+        try {
+            await deleteUser(user);
+            alert("Account eliminato.");
+            window.location.href = "/pages/login.html";
+        } catch (error) {
+            console.error("Errore eliminazione account:", error);
+            if (String(error?.code || "").includes("requires-recent-login")) {
+                alert("Per eliminare l'account devi rieffettuare l'accesso (sicurezza). Effettua logout e rientra, poi riprova.");
+            } else {
+                alert("Errore durante l'eliminazione dell'account.");
+            }
+        } finally {
+            deleteAccountBtn.disabled = false;
+            deleteAccountBtn.textContent = previousText;
+        }
+    });
+}
 // Funzione globale per aggiornare Firestore quando l'upload della foto finisce
 window.updateFirestorePfp = async (newUrl) => {
     const user = auth.currentUser;
