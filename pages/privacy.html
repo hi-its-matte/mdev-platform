@@ -20,38 +20,60 @@
             border: 1px solid #1a1a1a;
             padding: 40px;
             border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        h1 { font-weight: 800; font-size: 28px; margin-bottom: 10px; color: #fff; }
-        h2 { font-weight: 600; font-size: 18px; margin-top: 30px; color: #fff; border-left: 3px solid #007aff; padding-left: 15px; }
-        p, li { color: #888; font-size: 14px; }
-        .back-btn { display: inline-block; margin-bottom: 20px; color: #007aff; text-decoration: none; font-weight: 600; font-size: 13px; }
+        h1 { font-weight: 800; font-size: 32px; margin-bottom: 10px; color: #fff; letter-spacing: -1px; }
+        h2 { font-weight: 600; font-size: 18px; margin-top: 35px; color: #fff; border-left: 3px solid #007aff; padding-left: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        p, li { color: #a1a1a1; font-size: 14px; margin-bottom: 12px; }
+        strong { color: #fff; }
+        ul { padding-left: 20px; }
+        .back-btn { display: inline-block; margin-bottom: 25px; color: #007aff; text-decoration: none; font-weight: 600; font-size: 13px; transition: 0.2s; }
+        .back-btn:hover { opacity: 0.8; transform: translateX(-5px); }
+        .highlight-box { background: #111; border: 1px solid #222; padding: 20px; border-radius: 12px; margin-top: 15px; }
     </style>
 </head>
 <body>
-    <a href="javascript:history.back()" class="back-btn">← Indietro</a>
+    <a href="javascript:history.back()" class="back-btn">← Torna alla piattaforma</a>
     <div class="policy-card">
         <h1>Privacy Policy</h1>
-        <p>Ultimo aggiornamento: 16 Aprile 2026</p>
+        <p>Ultimo aggiornamento: 21 Aprile 2026</p>
 
-        <h2>1. Raccolta Dati</h2>
-        <p>La piattaforma MatteDev Platform raccoglie esclusivamente i dati necessari al funzionamento tecnico del servizio:</p>
+        <p>La presente informativa descrive come <strong>MatteDev</strong> gestisce e protegge i tuoi dati personali in conformità con i principi di trasparenza e sicurezza del GDPR.</p>
+
+        <h2>1. Raccolta e Trattamento Dati</h2>
+        <p>La piattaforma MatteDev Platform raccoglie esclusivamente i dati necessari all'erogazione del servizio tecnico:</p>
         <ul>
-            <li><strong>Dati di Autenticazione:</strong> Email e password gestiti tramite Firebase Auth.</li>
-            <li><strong>Profilo Utente:</strong> Nome utente (username), biografia e URL dell'immagine profilo (PFP) memorizzati su Firebase Firestore.</li>
+            <li><strong>Dati di Autenticazione:</strong> Email e credenziali gestite in modo criptato tramite il servizio Google Firebase Auth.</li>
+            <li><strong>Profilo Utente:</strong> Nome utente (username), biografia e URL dell'immagine profilo (PFP) memorizzati su Google Firebase Firestore.</li>
+            <li><strong>Dati di Navigazione:</strong> Log tecnici minimi per garantire la stabilità della piattaforma.</li>
         </ul>
 
-        <h2>2. Servizi Terzi</h2>
-        <p>Utilizziamo i seguenti servizi esterni:</p>
+        <h2>2. Applicazione Desktop (Windows)</h2>
+        <div class="highlight-box">
+            <p>L'utilizzo della versione desktop dell'applicazione MatteDev comporta specifiche modalità di gestione dei dati locali:</p>
+            <ul>
+                <li><strong>Persistenza della Sessione (Autologin):</strong> L'applicazione memorizza localmente token di sessione e cookie tecnici per consentire l'accesso automatico ad ogni avvio.</li>
+                <li><strong>Logout:</strong> L'utente può terminare la persistenza dei dati in qualsiasi momento utilizzando la funzione di "Logout". Tale operazione cancellerà i cookie di sessione memorizzati dall'applicazione desktop.</li>
+            </ul>
+        </div>
+
+        <h2>3. Servizi di Terze Parti</h2>
+        <p>Per garantire prestazioni elevate, ci affidiamo a partner leader nel settore:</p>
         <ul>
-            <li><strong>Google Firebase:</strong> Per la gestione del database e dell'autenticazione sicura.</li>
-            <li><strong>Google Fonts:</strong> Per il caricamento dei caratteri tipografici. Google potrebbe tracciare l'utilizzo dei font per scopi statistici.</li>
+            <li><strong>Google Firebase:</strong> Hosting dei dati, database in tempo reale e infrastruttura di autenticazione sicura.</li>
+            <li><strong>Google Fonts:</strong> Erogazione dei font di sistema. Google può raccogliere dati statistici sull'uso dei caratteri secondo la propria policy.</li>
         </ul>
 
-        <h2>3. Utilizzo dei Dati</h2>
-        <p>I dati non vengono ceduti a terzi né utilizzati per scopi di marketing. Servono unicamente a personalizzare la tua Dashboard e la Isola Dinamica dell'utente.</p>
+        <h2>4. Finalità e Conservazione</h2>
+        <p>I dati raccolti <strong>non vengono venduti a terzi</strong> né utilizzati per attività di profilazione pubblicitaria o marketing. Il trattamento ha come unica finalità la personalizzazione della Dashboard e delle funzionalità core (come l'Isola Dinamica).</p>
 
-        <h2>4. Diritti dell'Utente</h2>
-        <p>Puoi modificare o eliminare i tuoi dati in qualsiasi momento tramite la sezione Account o richiedendo la cancellazione definitiva del profilo. official@mattedev.com</p>
+        <h2>5. Sicurezza e Diritti</h2>
+        <p>In conformità con il GDPR, l'utente ha il diritto di:</p>
+        <ul>
+            <li>Accedere, rettificare o richiedere la cancellazione dei propri dati.</li>
+            <li>Richiedere la portabilità dei dati o la limitazione del trattamento.</li>
+            <li>Eliminare il proprio account autonomamente dalla sezione impostazioni o scrivendo a: <strong>official@mattedev.com</strong>.</li>
+        </ul>
     </div>
 </body>
 </html>
