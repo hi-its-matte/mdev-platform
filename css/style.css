@@ -31,19 +31,17 @@ body {
 /* --- CENTRATURA E GRID --- */
 .card-container {
     width: 100%;
-    max-width: 800px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    max-width: 100%; /* era 800px — troppo stretto con più icone */
+    padding: 0 20px;
 }
 
 .apps-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 25px; /* Spazio equilibrato per icone grandi */
+    display: grid;
+    grid-template-columns: repeat(4, 120px); /* 4 icone per riga */
+    gap: 25px;
     padding: 40px;
+    justify-content: center;
+    align-items: start;
 }
 
 /* --- APP ITEM --- */
