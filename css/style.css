@@ -1,6 +1,8 @@
 /* =====================================================
    MATTEDEV - TOTAL BLACK MONO STYLE
    ===================================================== */
+
+   @import url('/fonts/fonts.css'); /* Importa i font locali */
 :root {
     --bg-black: #000000;
     --icon-size: 100px; /* Icone più grandi */
